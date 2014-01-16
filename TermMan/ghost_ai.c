@@ -5,7 +5,7 @@
 
 /**
  * Set the path of the ghost.
- * The ghost will not 
+ *
  * There are certain conditions which limit the path the ghost can take.
  * 	1. The ghost cannot reverse it's direction.
  * 	2. A path can only be set at an intersection.
@@ -16,7 +16,7 @@ void set_path(ghost_t *ghost, map_t *map) {
 	int left = NO_DIST, right = NO_DIST, up = NO_DIST, down = NO_DIST;
 	position_t new_pos = ghost->next_position(ghost, &map->dims);
 	int x_wrap;
-	
+
 	x_wrap = ((new_pos.x - 1) >= 0) ? new_pos.x - 1 : map->dims.width - 1;
 	if ((map->detect_collision_coords(map, x_wrap, new_pos.y) == 0) && (ghost->dir != RIGHT)) {	// Distance from left tile
 		left = get_distance_coords(x_wrap, new_pos.y, ghost->target_tile.x, ghost->target_tile.y);
@@ -49,7 +49,7 @@ void set_path(ghost_t *ghost, map_t *map) {
 	if (right < dist) {
 		new_dir = RIGHT;
 	}
-	
+
 	ghost->future_dir = new_dir;
 }
 
@@ -73,21 +73,21 @@ static void set_target_blinky(ghost_t *ghost, pacman_t *pacman) {
 static void set_target_pinky(ghost_t *ghost, pacman_t *pacman, dimension_t *dims) {
 	position_t pos;
 	switch (pacman->dir) {
-		case LEFT:
-			pos = new_position_with_wrap(pacman->pos.x - 4, pacman->pos.y, dims);
-			break;
-		case RIGHT:
-			pos = new_position_with_wrap(pacman->pos.x + 4, pacman->pos.y, dims);
-			break;
-		case UP:
-			pos = new_position_with_wrap(pacman->pos.x, pacman->pos.y - 4, dims);
-			break;
-		case DOWN:
-			pos = new_position_with_wrap(pacman->pos.x, pacman->pos.y + 4, dims);
-			break;
+	case LEFT:
+		pos = new_position_with_wrap(pacman->pos.x - 4, pacman->pos.y, dims);
+		break;
+	case RIGHT:
+		pos = new_position_with_wrap(pacman->pos.x + 4, pacman->pos.y, dims);
+		break;
+	case UP:
+		pos = new_position_with_wrap(pacman->pos.x, pacman->pos.y - 4, dims);
+		break;
+	case DOWN:
+		pos = new_position_with_wrap(pacman->pos.x, pacman->pos.y + 4, dims);
+		break;
 	}
 	ghost->target_tile = pos;
-} 
+}
 
 /**
  * Targeting strategy for Inky.
@@ -100,24 +100,24 @@ static void set_target_pinky(ghost_t *ghost, pacman_t *pacman, dimension_t *dims
 static void set_target_inky(ghost_t *ghost, pacman_t *pacman, ghost_t *blinky, dimension_t *dims) {
 	position_t int_tile, targ_tile;
 	switch (pacman->dir) {
-		case LEFT:
-			int_tile = new_position_with_wrap(pacman->pos.x - 2, pacman->pos.y, dims);
-			break;
-		case RIGHT:
-			int_tile = new_position_with_wrap(pacman->pos.x + 2, pacman->pos.y, dims);
-			break;
-		case UP:
-			int_tile = new_position_with_wrap(pacman->pos.x, pacman->pos.y - 2, dims);
-			break;
-		case DOWN:
-			int_tile = new_position_with_wrap(pacman->pos.x, pacman->pos.y + 2, dims);
-			break;
+	case LEFT:
+		int_tile = new_position_with_wrap(pacman->pos.x - 2, pacman->pos.y, dims);
+		break;
+	case RIGHT:
+		int_tile = new_position_with_wrap(pacman->pos.x + 2, pacman->pos.y, dims);
+		break;
+	case UP:
+		int_tile = new_position_with_wrap(pacman->pos.x, pacman->pos.y - 2, dims);
+		break;
+	case DOWN:
+		int_tile = new_position_with_wrap(pacman->pos.x, pacman->pos.y + 2, dims);
+		break;
 	}
 
 	targ_tile.x = int_tile.x + (int_tile.x - blinky->pos.x);
 	targ_tile.y = int_tile.y + (int_tile.y - blinky->pos.y);
 	ghost->target_tile = new_position_with_wrap(targ_tile.x, targ_tile.y, dims);
-} 
+}
 
 /**
  * Targeting strategy for Clyde.
@@ -133,24 +133,24 @@ static void set_target_clyde(ghost_t *ghost, pacman_t *pacman, dimension_t *dims
 	} else {
 		ghost->target_tile = new_position(0, 30);
 	}
-} 
+}
 
 /**
  * Set a new target tile.
  */
 void set_new_target(ghost_t *ghost, pacman_t *pacman, ghost_t *blinky, dimension_t *dims) {
 	switch (ghost->name) {
-		case BLINKY:
-			set_target_blinky(ghost, pacman);
-			break;
-		case PINKY:
-			set_target_pinky(ghost, pacman, dims);
-			break;
-		case INKY:
-			set_target_inky(ghost, pacman, blinky, dims);
-			break;
-		case CLYDE:
-			set_target_clyde(ghost, pacman, dims);
-			break;
+	case BLINKY:
+		set_target_blinky(ghost, pacman);
+		break;
+	case PINKY:
+		set_target_pinky(ghost, pacman, dims);
+		break;
+	case INKY:
+		set_target_inky(ghost, pacman, blinky, dims);
+		break;
+	case CLYDE:
+		set_target_clyde(ghost, pacman, dims);
+		break;
 	}
 }

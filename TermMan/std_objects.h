@@ -1,5 +1,5 @@
-#ifndef TERMMAN_STD_OBJECTS
-#define TERMMAN_STD_OBJECTS
+#ifndef TERMMAN_STD_OBJECTS_H
+#define TERMMAN_STD_OBJECTS_H
 
 #define MAX_X 		28
 #define MAX_Y		31
@@ -9,14 +9,7 @@ typedef enum { YES, NO } bool_t;
 typedef enum { UP, DOWN, LEFT, RIGHT, SAME } direction_t;
 typedef enum { TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER } bearing_t;
 typedef enum { WHITE, BLACK, RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE, GRAY, PINK, CYAN } colour_t;
-
-typedef enum {
-	WALL,
-	PATH,
-	FOOD,
-	FREE,
-	GATE
-} terrain_t;
+typedef enum { WALL, PATH, FOOD, FREE, GATE } terrain_t;
 
 /**
  * Holds the x and y values within a coordinate system.
@@ -38,10 +31,9 @@ typedef struct {
 	int height;
 } dimension_t;
 
-int get_distance(position_t *pos, position_t *target_pos);
+int get_distance_pos(position_t *pos, position_t *target_pos);
 int get_distance_coords(int x1, int y1, int x2, int y2);
-int get_distance_x(int x1, int x2);
-int get_distance_y(int y1, int y2);
+int get_distance(int p1, int p2);
 
 int compare_positions(position_t pos1, position_t pos2);
 

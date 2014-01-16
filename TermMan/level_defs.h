@@ -1,5 +1,5 @@
-#ifndef TERMMAN_LEVEL_DEFS
-#define TERMMAN_LEVEL_DEFS
+#ifndef TERMMAN_LEVEL_DEFS_H
+#define TERMMAN_LEVEL_DEFS_H
 
 #include "std_objects.h"
 

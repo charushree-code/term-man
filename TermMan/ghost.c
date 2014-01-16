@@ -3,21 +3,21 @@
 
 /**
  * Change position based on the direction.
- */ 
+ */
 static void change_position(position_t *pos, dimension_t *dims, direction_t dir) {
 	switch (dir) {
-		case UP:
-			pos->y = (pos->y > 0) ? pos->y - 1 : dims->height - 1;
-			break;
-		case DOWN:
-			pos->y = (pos->y < dims->height - 1) ? pos->y + 1 : 0;
-			break;
-		case LEFT:
-			pos->x = (pos->x > 0) ? pos->x - 1 : dims->width - 1;
-			break;
-		case RIGHT:
-			pos->x = (pos->x < dims->width - 1) ? pos->x + 1 : 0;
-			break;
+	case UP:
+		pos->y = (pos->y > 0) ? pos->y - 1 : dims->height - 1;
+		break;
+	case DOWN:
+		pos->y = (pos->y < dims->height - 1) ? pos->y + 1 : 0;
+		break;
+	case LEFT:
+		pos->x = (pos->x > 0) ? pos->x - 1 : dims->width - 1;
+		break;
+	case RIGHT:
+		pos->x = (pos->x < dims->width - 1) ? pos->x + 1 : 0;
+		break;
 	}
 }
 
@@ -47,14 +47,14 @@ static void set_coordinates(ghost_t *ghost, int x, int y) {
 
 /**
  * Get the position of the ghost.
- */ 
+ */
 static void get_position(ghost_t *ghost, position_t *pos) {
 	*pos = ghost->pos;
 }
 
 /**
  * Get the x-y coordinate position of the ghost.
- */ 
+ */
 static void get_coordinates(ghost_t *ghost, int *x, int *y) {
 	*x = ghost->pos.x;
 	*y = ghost->pos.y;
@@ -70,8 +70,8 @@ static position_t get_next_position(ghost_t *ghost, dimension_t *dims) {
 }
 
 /**
- * Set target tile. 
- */ 
+ * Set target tile.
+ */
 static void set_target(ghost_t *ghost, int x, int y) {
 	ghost->target_tile = new_position(x, y);
 }
@@ -97,7 +97,7 @@ static void reset(ghost_t *ghost) {
 
 /**
  * Release memory held by ghost.
- */ 
+ */
 static void release(ghost_t *ghost) {
 	free(ghost);
 }
@@ -105,32 +105,32 @@ static void release(ghost_t *ghost) {
 /**
  * Reverse the direction of the ghost.
  */
-void reverse(ghost_t *ghost) {	
+static void reverse(ghost_t *ghost) {
 	switch (ghost->dir) {
-		case LEFT:
-			ghost->dir = RIGHT;
-			break;
-		case RIGHT:
-			ghost->dir = LEFT;
-			break;
-		case UP:
-			ghost->dir = DOWN;
-			break;
-		case DOWN:
-			ghost->dir = UP;
-			break;
+	case LEFT:
+		ghost->dir = RIGHT;
+		break;
+	case RIGHT:
+		ghost->dir = LEFT;
+		break;
+	case UP:
+		ghost->dir = DOWN;
+		break;
+	case DOWN:
+		ghost->dir = UP;
+		break;
 	}
 }
 
 /**
  * Create a new instance of a generic ghost.
- */ 
+ */
 static ghost_t * new_ghost() {
-	ghost_t *ghost = malloc(sizeof(ghost_t));	
-	
+	ghost_t *ghost = malloc(sizeof(ghost_t));
+
 	ghost->mode = SCATTER;
 	reset(ghost);
-	
+
 	ghost->move_tile = &move;
 	ghost->set_pos = &set_position;
 	ghost->set_coords = &set_coordinates;
@@ -142,7 +142,7 @@ static ghost_t * new_ghost() {
 	ghost->next_position = &get_next_position;
 	ghost->reset = &reset;
 	ghost->release = &release;
-	
+
 	return ghost;
 }
 

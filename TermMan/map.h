@@ -1,5 +1,5 @@
-#ifndef TERMMAN_MAP
-#define TERMMAN_MAP
+#ifndef TERMMAN_MAP_H
+#define TERMMAN_MAP_H
 
 #include "std_objects.h"
 #include "ghost.h"

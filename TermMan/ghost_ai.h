@@ -1,5 +1,5 @@
-#ifndef TERMMAN_GHOST_AI
-#define TERMMAN_GHOST_AI
+#ifndef TERMMAN_GHOST_AI_H
+#define TERMMAN_GHOST_AI_H
 
 #include "std_objects.h"
 #include "ghost.h"

@@ -1,5 +1,5 @@
-#ifndef TERMMAN_GHOST
-#define TERMMAN_GHOST
+#ifndef TERMMAN_GHOST_H
+#define TERMMAN_GHOST_H
 
 #include "std_objects.h"
 
@@ -14,7 +14,7 @@ typedef struct ghost_t {
 	position_t target_tile;
 	direction_t dir;
 	direction_t future_dir;
-	
+
 	ghost_name_t name;
 	unsigned char sprite;
 	colour_t colour;
@@ -27,10 +27,10 @@ typedef struct ghost_t {
 
 	void (*set_pos)(struct ghost_t *self, position_t *pos);
 	void (*set_coords)(struct ghost_t *self, int x, int y);
-	
+
 	void (*get_pos)(struct ghost_t *self, position_t *pos);
 	void (*get_coords)(struct ghost_t *self, int *x, int *y);
-	
+
 	void (*reset)(struct ghost_t *self);
 	void (*reverse)(struct ghost_t *self);
 	void (*release)(struct ghost_t *self);

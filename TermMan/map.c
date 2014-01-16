@@ -26,11 +26,11 @@ static void detect_pacman_collision(map_t *map, pacman_t *pacman, position_t *ne
  */
 static int collision(terrain_t terrain) {
 	switch (terrain) {
-		case PATH: return 0;
-		case FREE: return 0;
-		case FOOD: return 0;
-		case GATE: return 1;
-		case WALL: return 1;
+	case PATH: return 0;
+	case FREE: return 0;
+	case FOOD: return 0;
+	case GATE: return 1;
+	case WALL: return 1;
 	}
 
 	return 1;
@@ -82,19 +82,19 @@ static unsigned char draw_terrain(terrain_t terrain) {
 	unsigned char out;
 
 	switch(terrain) {
-		case WALL:
-			out = 'X';
-			break;
-		case PATH:
-		case FREE:
-			out = ' ';
-			break;
-		case GATE:
-			out = '_';
-			break;
-		case FOOD:
-			out = '*';
-			break;
+	case WALL:
+		out = 'X';
+		break;
+	case PATH:
+	case FREE:
+		out = ' ';
+		break;
+	case GATE:
+		out = '_';
+		break;
+	case FOOD:
+		out = '*';
+		break;
 	}
 
 	return out;
@@ -108,12 +108,15 @@ static void get_map_level(map_t *map) {
 
 	map->dims.height = MAX_Y;
 	map->dims.width = MAX_X;
+
 	/*
 	for (i = 0; i < map->dims.height; i++) {
 		for (j = 0; j < map->dims.width; j++) {
 			map->layout[i][j] = level[i][j];
 		}
-	}*/
+	}
+	*/
+
 	map->layout = &level;
 }
 
@@ -130,7 +133,7 @@ static void release(map_t *map) {
  * 0:	no intersection
  * 1:	intersection
  */
-int intersection(map_t *map, position_t *pos) {
+static int intersection(map_t *map, position_t *pos) {
 	bool_t x_check = NO, y_check = NO;	// Flag to determine path availablility
 
 	x_check = (!collision((*map->layout)[pos->y][pos->x - 1])) ? YES : x_check;	// Left check

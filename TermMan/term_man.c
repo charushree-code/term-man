@@ -44,9 +44,9 @@ int main() {
 
 	WINDOW *window;
 
-	window = initscr();	// Initialise the window
-	cbreak();			// Don't wait for enter key
-	noecho();			// Don't echo the input
+	window = initscr();			// Initialise the window
+	cbreak();				// Don't wait for enter key
+	noecho();				// Don't echo the input
 	getmaxyx(window, height, width);	// Get window size
 	clear();
 	refresh();
@@ -56,7 +56,7 @@ int main() {
 
 	for (;;) {
 		input = getch();
-		if (input == 'q') {			// Quit
+		if (input == 'q') {		// Quit
 			break;
 		} else if (input == 'r') {	// Restart
 			reset();
@@ -143,7 +143,7 @@ void draw_pacman(unsigned char input) {
 
 	move(pacman->pos.y, pacman->pos.x);	// Move pacman to new position
 	delch();
-	insch(pacman->sprite);				// Draw pacman
+	insch(pacman->sprite);			// Draw pacman
 
 	refresh();
 }
@@ -178,13 +178,11 @@ void draw_ghost(ghost_t *_ghost) {
 void check_collision() {
 	if (compare_positions(pacman->pos, blinky->pos) || compare_positions(pacman->pos, pinky->pos) ||
 		compare_positions(pacman->pos, inky->pos) || compare_positions(pacman->pos, clyde->pos)) {
-		/*
 		if (pacman->lose_life(pacman)) {
 			reset();
 		} else {
 			pacman->lives = 3;
 		}
-		*/
 		reset();
 	}
 }
