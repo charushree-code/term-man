@@ -1,4 +1,4 @@
-TermMan
-=======
+term-man
+========
 
-TermMan is a terminal recreation of Pacman.
+term-man is a *work in progress* terminal recreation of Pacman.
