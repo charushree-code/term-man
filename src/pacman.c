@@ -1,111 +1,154 @@
 #include "pacman.h"
 #include <stdlib.h>
 
-/**
- * Move pacman to the chosen position.
- */
-static void set_position(Pacman *pacman, Position *pos) {
-    pacman->pos = *pos;
-}
+// Private variables
+static struct private_t {
+    Position pos;
+    Direction dir;
+    int lives;
+    int score;
+    unsigned char sprite;
+} private_t;
 
-/**
- * Set the x-y coordinate position of pacman.
+/*
+ * Update pacmans sprite based on his current direction.
  */
-static void set_coordinates(Pacman *pacman, int x, int y) {
-    pacman->pos.x = x;
-    pacman->pos.y = y;
-}
-
-/**
- * Get the position of pacman.
- */
-static void get_position(Pacman *pacman, Position *pos) {
-    *pos = pacman->pos;
-}
-
-/**
- * Get the x-y coordinate position of pacman.
- */
-static void get_coordinates(Pacman *pacman, int *x, int *y) {
-    *x = pacman->pos.x;
-    *y = pacman->pos.y;
-}
-
-/**
- * Set Pacman's direction and change his sprite accordingly.
- */
-static void set_direction(Pacman *pacman, Direction dir) {
-    pacman->dir = dir;
-    switch (dir) {
-    case LEFT:
-        pacman->sprite = '<';
-        break;
-    case RIGHT:
-        pacman->sprite = '>';
-        break;
-    case UP:
-        pacman->sprite = '^';
-        break;
-    case DOWN:
-        pacman->sprite = 'v';
-        break;
+static void update_sprite(Pacman *pacman)
+{
+    if (pacman->private->dir == LEFT){
+        pacman->private->sprite = '<';
+    }
+    else if (pacman->private->dir == RIGHT) {
+        pacman->private->sprite = '>';
+    }
+    else if (pacman->private->dir == UP) {
+        pacman->private->sprite = '^';
+    }
+    else if (pacman->private->dir == DOWN) {
+        pacman->private->sprite = 'v';
     }
 }
 
-/**
- * Increase pacmans food consumption total.
+/*
+ * Move pacman to the chosen position.
  */
-static void eat(Pacman *pacman) {
-    pacman->food_count++;
-    pacman->score += 10;
+static void set_position(Pacman *pacman, Position pos)
+{
+    pacman->private->pos = pos;
 }
 
-/**
+/*
+ * Get the position of pacman.
+ */
+static Position position(Pacman *pacman)
+{
+    return pacman->private->pos;
+}
+
+/*
+ * Set Pacman's direction and change his sprite accordingly.
+ */
+static void set_direction(Pacman *pacman, Direction dir)
+{
+    pacman->private->dir = dir;
+
+    update_sprite(pacman);
+}
+
+/*
+ * Get the direction of pacman.
+ */
+static Direction direction(Pacman *pacman)
+{
+    return pacman->private->dir;
+}
+
+/*
+ * Get pacman's sprite.
+ */
+static unsigned char sprite(Pacman *pacman)
+{
+    return pacman->private->sprite;
+}
+
+/*
+ * Increase pacmans food consumption total.
+ */
+static void eat(Pacman *pacman)
+{
+    pacman->private->score += 10;
+}
+
+/*
+ * Get the current score.
+ */
+static int score(Pacman *pacman)
+{
+    return pacman->private->score;
+}
+
+/*
  * Remove one of pacmans lives.
  * Returns the total lives remaining.
  */
-static int lose_life(Pacman *pacman) {
-    pacman->lives--;
-    return pacman->lives;
+static int lose_life(Pacman *pacman)
+{
+    return (pacman->private->lives -= 1);
 }
 
-/**
- * Reset Pacman.
+/*
+ * Returns the total lives remaining.
  */
-static void reset(Pacman *pacman) {
-    pacman->pos = new_position(13, 23);
-    pacman->dir = RIGHT;
-    pacman->food_count = 0;
-    pacman->score = 0;
+static int lives(Pacman *pacman)
+{
+    return pacman->private->lives;
 }
 
+/*
+ * Reset Pacman to his default position.
+ */
+static void reset(Pacman *pacman)
+{
+    pacman->set_position(pacman, new_position(13, 23));
+    pacman->set_direction(pacman, RIGHT);
+    pacman->private->score = 0;
+}
 
-/**
+/*
  * Release memory held by pacman.
  */
-static void release(Pacman *pacman) {
-    // Release resources.
+static void release(Pacman *pacman)
+{
+    free(pacman->private);
 }
 
-/**
+/*
  * Create a new instance of pacman.
  */
-Pacman * new_pacman(Pacman *self) {
+Pacman * new_pacman(Pacman *self)
+{
     if (self) {
-        self->lives = 3;
-        self->colour = YELLOW;
-        self->sprite = '>';
-        reset(self);
-
+        self->sprite = &sprite;
         self->eat = &eat;
+        self->score = &score;
+
         self->lose_life = &lose_life;
+        self->lives = &lives;
+
         self->set_direction = &set_direction;
-        self->move = &set_position;
-        self->set_coords = &set_coordinates;
-        self->get_pos = &get_position;
-        self->get_coords = &get_coordinates;
+        self->direction = &direction;
+
+        self->set_position = &set_position;
+        self->position = &position;
+
         self->reset = &reset;
         self->release = &release;
+
+        self->private = malloc(sizeof(private_t));
+
+        self->private->lives = 3;
+        self->reset(self);
     }
+
     return self;
 }

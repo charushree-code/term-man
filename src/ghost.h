@@ -3,10 +3,19 @@
 
 #include "std_objects.h"
 
-typedef enum {CHASE, SCATTER, FRIGHTENED} GhostMode;
-typedef enum {BLINKY, PINKY, INKY, CLYDE} GhostName;
+typedef enum {
+    CHASE,
+    SCATTER,
+    FRIGHTENED
+} GhostMode;
 
-/**
+typedef enum {
+    BLINKY,
+    PINKY,
+    INKY,CLYDE
+} GhostName;
+
+/*
  * The ghost character in pacman.
  */
 typedef struct Ghost {
@@ -19,7 +28,6 @@ typedef struct Ghost {
     GhostMode mode;
     Colour colour;
     unsigned char sprite;
-    
 
     void (*move_tile)(struct Ghost *self, Dimension *dims);
     void (*target)(struct Ghost *self, int x, int y);

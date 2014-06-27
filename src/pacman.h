@@ -3,34 +3,33 @@
 
 #include "std_objects.h"
 
-/**
- * Pacman himself
+struct private_t;
+
+/*
+ * Pacman himself.
  */
 typedef struct Pacman {
-    Direction dir;
-    Position pos;
-    unsigned char sprite;
-    Colour colour;
-    int food_count;
-    int lives;
-    int score;
-
+    unsigned char (*sprite)(struct Pacman *self);
     void (*eat)(struct Pacman *self);
-    void (*set_direction)(struct Pacman *self, Direction dir);
+    int (*score)(struct Pacman *self);
+
     int (*lose_life)(struct Pacman *self);
+    int (*lives)(struct Pacman *self);
 
-    void (*move)(struct Pacman *self, Position *pos);
-    void (*set_coords)(struct Pacman *self, int x, int y);
+    void (*set_direction)(struct Pacman *self, Direction dir);
+    Direction (*direction)(struct Pacman *self);
 
-    void (*get_pos)(struct Pacman *self, Position *pos);
-    void (*get_coords)(struct Pacman *self, int *x, int *y);
+    void (*set_position)(struct Pacman *self, Position pos);
+    Position (*position)(struct Pacman *self);
 
     void (*reset)(struct Pacman *self);
     void (*release)(struct Pacman *self);
+
+    struct private_t *private;
 } Pacman;
 
-/**
- * Create a new instance of ghost
+/*
+ * Create a new instance of pacman.
  */
 Pacman * new_pacman(Pacman *self);
 
